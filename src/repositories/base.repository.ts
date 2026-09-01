@@ -12,11 +12,11 @@ export class RepositoryError extends Error {
 }
 
 /** Throws a normalised error when a Supabase call fails. */
-export function unwrap<T>(result: { data: T; error: PostgrestError | null }): T {
+export function unwrap<T>(result: { data: T | null; error: PostgrestError | null }): T {
   if (result.error) {
     throw new RepositoryError(result.error.message, result.error)
   }
-  return result.data
+  return result.data as T
 }
 
 export abstract class BaseRepository {

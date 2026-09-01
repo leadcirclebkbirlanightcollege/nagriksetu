@@ -1,0 +1,6 @@
+{
+  "name": "NagrikSetu",
+  "description": "Digital Civic Issue Reporting & Community Problem Monitoring Portal. Report civic issues, track complaints, and monitor community problems.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -41,7 +41,7 @@ class ComplaintsRepository extends BaseRepository {
     if (filters.category) q = q.eq("category", filters.category)
     if (filters.area) q = q.eq("area", filters.area)
     if (filters.ward) q = q.eq("ward_id", filters.ward)
-    if (filters.priority) q = q.eq("priority", filters.priority)
+    if (filters.priority) q = q.eq("priority", filters.priority as ComplaintRow["priority"])
     if (filters.departmentId) q = q.eq("department_id", filters.departmentId)
     if (filters.officerId) q = q.eq("officer_id", filters.officerId)
     if (filters.reporterId) q = q.eq("reporter_id", filters.reporterId)

@@ -14,7 +14,7 @@ export type Json =
 
 type Timestamps = { created_at: string }
 
-export interface ProfileRow extends Timestamps {
+export type ProfileRow = Timestamps & {
   id: string
   full_name: string | null
   email: string | null
@@ -29,7 +29,7 @@ export interface ProfileRow extends Timestamps {
   updated_at: string
 }
 
-export interface ComplaintRow extends Timestamps {
+export type ComplaintRow = Timestamps & {
   id: string
   public_id: string | null
   title: string
@@ -53,7 +53,7 @@ export interface ComplaintRow extends Timestamps {
   resolved_at: string | null
 }
 
-export interface ComplaintHistoryRow extends Timestamps {
+export type ComplaintHistoryRow = Timestamps & {
   id: string
   complaint_id: string
   status: string
@@ -62,14 +62,14 @@ export interface ComplaintHistoryRow extends Timestamps {
   actor_name: string | null
 }
 
-export interface ComplaintImageRow extends Timestamps {
+export type ComplaintImageRow = Timestamps & {
   id: string
   complaint_id: string
   storage_path: string
   public_url: string | null
 }
 
-export interface DepartmentRow extends Timestamps {
+export type DepartmentRow = Timestamps & {
   id: string
   name: string
   code: string | null
@@ -78,7 +78,7 @@ export interface DepartmentRow extends Timestamps {
   phone: string | null
 }
 
-export interface OfficerRow extends Timestamps {
+export type OfficerRow = Timestamps & {
   id: string
   profile_id: string
   department_id: string | null
@@ -86,13 +86,13 @@ export interface OfficerRow extends Timestamps {
   active: boolean
 }
 
-export interface WardRow extends Timestamps {
+export type WardRow = Timestamps & {
   id: string
   name: string
   code: string | null
 }
 
-export interface AreaRow extends Timestamps {
+export type AreaRow = Timestamps & {
   id: string
   name: string
   ward_id: string | null
@@ -100,7 +100,7 @@ export interface AreaRow extends Timestamps {
   lng: number | null
 }
 
-export interface NotificationRow extends Timestamps {
+export type NotificationRow = Timestamps & {
   id: string
   user_id: string | null
   role_target: string | null
@@ -111,7 +111,7 @@ export interface NotificationRow extends Timestamps {
   read: boolean
 }
 
-export interface FeedbackRow extends Timestamps {
+export type FeedbackRow = Timestamps & {
   id: string
   user_id: string | null
   complaint_id: string | null
@@ -120,7 +120,7 @@ export interface FeedbackRow extends Timestamps {
   suggestion: string | null
 }
 
-export interface SurveyRow extends Timestamps {
+export type SurveyRow = Timestamps & {
   id: string
   title: string
   description: string | null
@@ -128,7 +128,7 @@ export interface SurveyRow extends Timestamps {
   created_by: string | null
 }
 
-export interface SurveyQuestionRow {
+export type SurveyQuestionRow = {
   id: string
   survey_id: string
   prompt: string
@@ -138,7 +138,7 @@ export interface SurveyQuestionRow {
   required: boolean
 }
 
-export interface SurveyResponseRow extends Timestamps {
+export type SurveyResponseRow = Timestamps & {
   id: string
   survey_id: string
   respondent: string | null
@@ -148,23 +148,30 @@ export interface SurveyResponseRow extends Timestamps {
   answers: Json
 }
 
-export interface ActivityLogRow extends Timestamps {
+export type ActivityLogRow = Timestamps & {
   id: string
   actor_id: string | null
   actor_name: string | null
   action: string
   entity: string | null
   entity_id: string | null
-  meta: Json
+  meta?: Json
 }
 
 type TableConfig<Row, Insert = Partial<Row>, Update = Partial<Row>> = {
   Row: Row
   Insert: Insert
   Update: Update
+  Relationships: {
+    foreignKeyName: string
+    columns: string[]
+    isOneToOne?: boolean
+    referencedRelation: string
+    referencedColumns: string[]
+  }[]
 }
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       profiles: TableConfig<ProfileRow, Partial<ProfileRow> & { id: string }>
@@ -203,8 +210,17 @@ export interface Database {
         Partial<ActivityLogRow> & { action: string }
       >
     }
-    Views: Record<string, never>
-    Functions: Record<string, never>
-    Enums: Record<string, never>
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
   }
 }

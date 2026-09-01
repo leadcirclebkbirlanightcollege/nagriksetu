@@ -17,7 +17,7 @@ class ProfilesRepository extends BaseRepository {
   async update(id: string, patch: Partial<ProfileRow>): Promise<AppUser> {
     const row = unwrap(
       await this.db.from("profiles").update(patch).eq("id", id).select("*").single(),
-    )
+    ) as ProfileRow
     return toUser(row)
   }
 

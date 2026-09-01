@@ -52,7 +52,7 @@ export function useNotifications(userId: string | undefined, role: UserRole | un
       )
       .subscribe()
     return () => {
-      void supabase.removeChannel(channel)
+      if (supabase) void supabase.removeChannel(channel)
     }
   }, [userId, role])
 
