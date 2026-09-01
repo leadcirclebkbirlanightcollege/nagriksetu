@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white text-ink font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  /* Visible keyboard focus for accessibility (WCAG 2.4.7) */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid #FF9933;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  h1, h2, h3, h4 {
+    @apply text-navy font-semibold;
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  .gov-container {
+    @apply mx-auto w-full max-w-gov px-4 sm:px-6 lg:px-8;
+  }
+  .gov-card {
+    @apply rounded-gov border border-line bg-white shadow-card;
+  }
+  .gov-link {
+    @apply text-navy underline underline-offset-2 hover:text-saffron-dark focus:text-saffron-dark;
+  }
+  .gov-btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-gov px-4 py-2 text-sm font-semibold transition-colors;
+  }
+  .gov-btn-primary {
+    @apply gov-btn bg-navy text-white hover:bg-navy-light;
+  }
+  .gov-btn-saffron {
+    @apply gov-btn bg-saffron text-navy-dark hover:bg-saffron-dark;
+  }
+  .gov-btn-outline {
+    @apply gov-btn border border-navy bg-white text-navy hover:bg-surface;
+  }
+  .gov-input {
+    @apply min-h-[44px] w-full rounded-gov border border-line bg-white px-3 py-2 text-ink placeholder:text-muted focus:border-navy;
+  }
+  .gov-label {
+    @apply mb-1 block text-sm font-semibold text-ink;
+  }
+  .section-title {
+    @apply text-xl font-bold text-navy sm:text-2xl;
+  }
+}
+
+/* Skip-to-content link */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 8px;
+  top: 8px;
+  background: #0B3C6D;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+/* Text-size accessibility helpers toggled from the top utility bar */
+html[data-fontscale="large"] body { font-size: 17.5px; }
+html[data-fontscale="xlarge"] body { font-size: 19px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="NagrikSetu emblem">
+  <!-- Original civic emblem: NOT the official State Emblem of India. -->
+  <defs>
+    <clipPath id="ring"><circle cx="60" cy="60" r="46"/></clipPath>
+  </defs>
+
+  <!-- Outer emblem ring -->
+  <circle cx="60" cy="60" r="57" fill="#0B3C6D"/>
+  <circle cx="60" cy="60" r="57" fill="none" stroke="#FF9933" stroke-width="3"/>
+  <circle cx="60" cy="60" r="48" fill="#FFFFFF"/>
+
+  <g clip-path="url(#ring)">
+    <!-- Tricolour sky band -->
+    <rect x="12" y="14" width="96" height="12" fill="#FF9933"/>
+    <rect x="12" y="26" width="96" height="12" fill="#F3F5F8"/>
+    <rect x="12" y="38" width="96" height="12" fill="#138808"/>
+
+    <!-- River -->
+    <rect x="12" y="86" width="96" height="22" fill="#12518F"/>
+    <path d="M12 90 q12 -4 24 0 t24 0 t24 0 t24 0" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.5"/>
+
+    <!-- Bridge (Setu) -->
+    <path d="M14 86 C34 52 86 52 106 86" fill="none" stroke="#0B3C6D" stroke-width="5"/>
+    <line x1="14" y1="86" x2="14" y2="70" stroke="#0B3C6D" stroke-width="5"/>
+    <line x1="106" y1="86" x2="106" y2="70" stroke="#0B3C6D" stroke-width="5"/>
+    <g stroke="#0B3C6D" stroke-width="3">
+      <line x1="30" y1="70.5" x2="30" y2="86"/>
+      <line x1="45" y1="63" x2="45" y2="86"/>
+      <line x1="60" y1="60" x2="60" y2="86"/>
+      <line x1="75" y1="63" x2="75" y2="86"/>
+      <line x1="90" y1="70.5" x2="90" y2="86"/>
+    </g>
+
+    <!-- Location pin at the centre of the bridge -->
+    <path d="M60 40 C51 40 44 47 44 56 C44 68 60 82 60 82 C60 82 76 68 76 56 C76 47 69 40 60 40 Z" fill="#FF9933" stroke="#0B3C6D" stroke-width="2"/>
+    <circle cx="60" cy="56" r="6" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Community figures at base -->
+  <g fill="#138808">
+    <circle cx="48" cy="96" r="4"/>
+    <circle cx="60" cy="93" r="4.5"/>
+    <circle cx="72" cy="96" r="4"/>
+  </g>
+</svg>
