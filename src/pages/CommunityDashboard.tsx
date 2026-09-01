@@ -16,12 +16,7 @@ import {
 import SectionHeading from "../components/ui/SectionHeading"
 import StatCard from "../components/ui/StatCard"
 import IssueHeatMap from "../features/map/IssueHeatMap"
-import {
-  areaStats,
-  categoryStats,
-  communityTotals,
-  monthlyTrends,
-} from "../data/mockData"
+import { useAnalytics } from "../hooks/useAnalytics"
 
 const PIE_COLORS = [
   "#0B3C6D", "#FF9933", "#138808", "#12518F", "#E8842B",
@@ -38,7 +33,17 @@ const marginFlat = { top: 8, right: 8, bottom: 8, left: 0 }
 const barRadius: [number, number, number, number] = [3, 3, 0, 0]
 
 export default function CommunityDashboard() {
-  const resolutionRate = Math.round((communityTotals.resolved / communityTotals.total) * 100)
+  const { data: stats, loading } = useAnalytics()
+
+  const total = stats?.total ?? 0
+  const resolved = stats?.resolved ?? 0
+  const pending = stats?.pending ?? 0
+  const resolutionRate = total > 0 ? Math.round((resolved / total) * 100) : 0
+
+  const categoryStats = stats?.categoryStats ?? []
+  const areaStats = stats?.areaStats ?? []
+  const monthlyTrends = stats?.monthlyTrends ?? []
+
   return (
     <div className="gov-container py-8">
       <SectionHeading
@@ -52,75 +57,83 @@ export default function CommunityDashboard() {
       />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Total Reported Issues" value={communityTotals.total.toLocaleString("en-IN")} accent="navy" icon="📌" />
-        <StatCard label="Resolved Issues" value={communityTotals.resolved.toLocaleString("en-IN")} accent="green" icon="✅" />
-        <StatCard label="Pending Issues" value={communityTotals.pending.toLocaleString("en-IN")} accent="saffron" icon="⏳" />
+        <StatCard label="Total Reported Issues" value={total.toLocaleString("en-IN")} accent="navy" icon="📌" />
+        <StatCard label="Resolved Issues" value={resolved.toLocaleString("en-IN")} accent="green" icon="✅" />
+        <StatCard label="Pending Issues" value={pending.toLocaleString("en-IN")} accent="saffron" icon="⏳" />
         <StatCard label="Resolution Rate" value={resolutionRate + "%"} accent="navy" icon="📈" />
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <Panel title="Category-wise Statistics">
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={categoryStats} margin={marginTall}>
-              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
-              <XAxis dataKey="category" angle={-35} textAnchor="end" interval={0} tick={axisTickSm} height={70} />
-              <YAxis tick={axisTick} />
-              <Tooltip />
-              <Bar dataKey="count" name="Reports" fill="#0B3C6D" radius={barRadius} />
-            </BarChart>
-          </ResponsiveContainer>
-        </Panel>
+      {loading ? (
+        <div className="mt-8 rounded-gov border border-line bg-surface p-8 text-center text-muted">
+          Loading civic metrics…
+        </div>
+      ) : (
+        <>
+          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+            <Panel title="Category-wise Statistics">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={categoryStats} margin={marginTall}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+                  <XAxis dataKey="category" angle={-35} textAnchor="end" interval={0} tick={axisTickSm} height={70} />
+                  <YAxis tick={axisTick} />
+                  <Tooltip />
+                  <Bar dataKey="count" name="Reports" fill="#0B3C6D" radius={barRadius} />
+                </BarChart>
+              </ResponsiveContainer>
+            </Panel>
 
-        <Panel title="Category Distribution">
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie data={categoryStats} dataKey="count" nameKey="category" cx="50%" cy="50%" outerRadius={95} label={pieLabel}>
-                {categoryStats.map((_, i) => (
-                  <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </Panel>
+            <Panel title="Category Distribution">
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie data={categoryStats} dataKey="count" nameKey="category" cx="50%" cy="50%" outerRadius={95} label={pieLabel}>
+                    {categoryStats.map((_, i) => (
+                      <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </Panel>
 
-        <Panel title="Area-wise Statistics">
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={areaStats} margin={marginMid}>
-              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
-              <XAxis dataKey="area" tick={axisTickSm} />
-              <YAxis tick={axisTick} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="reported" name="Reported" fill="#FF9933" radius={barRadius} />
-              <Bar dataKey="resolved" name="Resolved" fill="#138808" radius={barRadius} />
-            </BarChart>
-          </ResponsiveContainer>
-        </Panel>
+            <Panel title="Area-wise Statistics">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={areaStats} margin={marginMid}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+                  <XAxis dataKey="area" tick={axisTickSm} />
+                  <YAxis tick={axisTick} />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="reported" name="Reported" fill="#FF9933" radius={barRadius} />
+                  <Bar dataKey="resolved" name="Resolved" fill="#138808" radius={barRadius} />
+                </BarChart>
+              </ResponsiveContainer>
+            </Panel>
 
-        <Panel title="Monthly Trends">
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={monthlyTrends} margin={marginFlat}>
-              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
-              <XAxis dataKey="month" tick={axisTick} />
-              <YAxis tick={axisTick} />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="reported" name="Reported" stroke="#0B3C6D" strokeWidth={2} />
-              <Line type="monotone" dataKey="resolved" name="Resolved" stroke="#138808" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </Panel>
-      </div>
+            <Panel title="Monthly Trends">
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={monthlyTrends} margin={marginFlat}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+                  <XAxis dataKey="month" tick={axisTick} />
+                  <YAxis tick={axisTick} />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="reported" name="Reported" stroke="#0B3C6D" strokeWidth={2} />
+                  <Line type="monotone" dataKey="resolved" name="Resolved" stroke="#138808" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </Panel>
+          </div>
 
-      <div className="mt-8">
-        <Panel title="Interactive Map & Heatmap of Reported Issues">
-          <p className="mb-3 text-sm text-muted">
-            Circles show issue clusters; the heat overlay highlights areas with the most reports.
-          </p>
-          <IssueHeatMap />
-        </Panel>
-      </div>
+          <div className="mt-8">
+            <Panel title="Interactive Map & Heatmap of Reported Issues">
+              <p className="mb-3 text-sm text-muted">
+                Circles show issue clusters; the heat overlay highlights areas with the most reports.
+              </p>
+              <IssueHeatMap />
+            </Panel>
+          </div>
+        </>
+      )}
     </div>
   )
 }

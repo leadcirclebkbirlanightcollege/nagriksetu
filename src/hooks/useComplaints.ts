@@ -1,20 +1,14 @@
 import { useAsync } from "./useAsync"
-import { complaintService } from "../services/complaint.service"
-import type { ComplaintFilters } from "../repositories/complaints.repository"
-import { mockComplaints } from "../data/mockData"
-import { hasSupabase } from "../lib/supabase"
+import { apiListComplaints, apiGetComplaint, type ComplaintFilters } from "../lib/api"
+import type { Complaint } from "../types"
 
 export function useComplaints(filters: ComplaintFilters = {}) {
-  return useAsync(async () => {
-    if (!hasSupabase) return mockComplaints
-    return complaintService.list(filters)
-  }, [JSON.stringify(filters)])
+  return useAsync<Complaint[]>(() => apiListComplaints(filters), [JSON.stringify(filters)])
 }
 
 export function useComplaint(publicId: string | undefined) {
-  return useAsync(async () => {
+  return useAsync<Complaint | null>(async () => {
     if (!publicId) return null
-    if (!hasSupabase) return mockComplaints.find((c) => c.id === publicId) ?? null
-    return complaintService.getByPublicId(publicId)
+    return apiGetComplaint(publicId)
   }, [publicId])
 }

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import SectionHeading from "../components/ui/SectionHeading"
 import StatCard from "../components/ui/StatCard"
 import { useLanguage } from "../context/LanguageContext"
-import { faqItems, mockUpdates, communityTotals } from "../data/mockData"
+import { useAnalytics } from "../hooks/useAnalytics"
 import { useState } from "react"
 
 const quickServices = [
@@ -34,8 +34,29 @@ const emergencyContacts = [
   { label: "Electricity Complaint", number: "1912" },
 ]
 
+const defaultFaqItems = [
+  {
+    q: "How do I report a civic issue on NagrikSetu?",
+    a: "Click on 'Report Civic Issue', select the appropriate category (e.g. Garbage, Road Damage, Street Lights), enter the location, provide a brief description and optionally attach photo evidence.",
+  },
+  {
+    q: "Do I need to create an account to report an issue?",
+    a: "No. You can report anonymously or enter your contact number. However, registering an account allows you to track all your complaints in one place.",
+  },
+  {
+    q: "How can I track the resolution progress of my complaint?",
+    a: "Enter your unique Complaint ID (e.g. NS-2026-000412) or 10-digit mobile number in the 'Track Complaint' section to see the step-by-step progress timeline.",
+  },
+  {
+    q: "What is the expected resolution timeframe?",
+    a: "Urgent issues like hazardous road potholes and electrical hazards are attended within 24 to 48 hours. Routine sanitation and street lighting issues are resolved within 2 to 4 business days.",
+  },
+]
+
 export default function Home() {
   const { t } = useLanguage()
+  const { data: stats } = useAnalytics()
+
   return (
     <>
       {/* Hero banner */}
@@ -101,15 +122,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Statistics */}
+      {/* Live Statistics */}
       <section className="bg-surface py-10">
         <div className="gov-container">
           <SectionHeading title={t("statistics")} subtitle="Live civic-service performance across the city" />
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <StatCard label="Total Reported Issues" value={communityTotals.total.toLocaleString("en-IN")} accent="navy" icon="📌" />
-            <StatCard label="Resolved Issues" value={communityTotals.resolved.toLocaleString("en-IN")} accent="green" icon="✅" />
-            <StatCard label="Pending Issues" value={communityTotals.pending.toLocaleString("en-IN")} accent="saffron" icon="⏳" />
-            <StatCard label="Avg. Resolution Time" value={`${communityTotals.avgDays} days`} accent="navy" icon="⚡" />
+            <StatCard
+              label="Total Reported Issues"
+              value={(stats?.total ?? 0).toLocaleString("en-IN")}
+              accent="navy"
+              icon="📌"
+            />
+            <StatCard
+              label="Resolved Issues"
+              value={(stats?.resolved ?? 0).toLocaleString("en-IN")}
+              accent="green"
+              icon="✅"
+            />
+            <StatCard
+              label="Pending Issues"
+              value={(stats?.pending ?? 0).toLocaleString("en-IN")}
+              accent="saffron"
+              icon="⏳"
+            />
+            <StatCard
+              label="Avg. Resolution Time"
+              value={`${stats?.avgResolutionDays ?? 3.2} days`}
+              accent="navy"
+              icon="⚡"
+            />
           </div>
         </div>
       </section>
@@ -133,16 +174,23 @@ export default function Home() {
         <div>
           <SectionHeading title={t("latestUpdates")} />
           <ul className="space-y-3">
-            {mockUpdates.map((u) => (
+            {(stats?.recent?.slice(0, 3) || []).map((u) => (
               <li key={u.id} className="gov-card p-4">
                 <div className="flex items-center gap-2">
-                  <span className="rounded bg-surfaceAlt px-2 py-0.5 text-xs font-semibold text-navy">{u.tag}</span>
-                  <time className="text-xs text-muted" dateTime={u.date}>
-                    {new Date(u.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                  <span className="rounded bg-surfaceAlt px-2 py-0.5 text-xs font-semibold text-navy">
+                    {u.category}
+                  </span>
+                  <span className="font-mono text-xs text-muted">{u.id}</span>
+                  <time className="ml-auto text-xs text-muted" dateTime={u.createdAt}>
+                    {new Date(u.createdAt).toLocaleDateString("en-IN", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </time>
                 </div>
                 <h3 className="mt-2 text-base font-semibold text-navy">{u.title}</h3>
-                <p className="mt-1 text-sm text-ink/80">{u.summary}</p>
+                <p className="mt-1 text-sm text-ink/80">{u.area} — Status: {u.status}</p>
               </li>
             ))}
           </ul>
@@ -206,7 +254,7 @@ function Faq() {
   const [open, setOpen] = useState<number | null>(0)
   return (
     <div className="gov-card divide-y divide-line">
-      {faqItems.map((item, i) => {
+      {defaultFaqItems.map((item, i) => {
         const isOpen = open === i
         return (
           <div key={item.q}>

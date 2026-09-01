@@ -4,11 +4,11 @@ import Logo from "../../components/brand/Logo"
 import { useAuth } from "../../context/AuthContext"
 
 export default function Login() {
-  const { signIn, signUp, demoMode } = useAuth()
+  const { signIn, signUp } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [mode, setMode] = useState<"login" | "register">("login")
-  const [form, setForm] = useState({ name: "", email: "", password: "" })
+  const [form, setForm] = useState({ name: "", email: "", password: "", phone: "", ward: "" })
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -20,15 +20,14 @@ export default function Login() {
     setBusy(true)
     try {
       if (mode === "register") {
-        await signUp(form.name, form.email, form.password)
-        if (demoMode) navigate(from, { replace: true })
-        else setError("Registration successful. Please check your email to confirm, then log in.")
+        await signUp(form.name, form.email, form.password, form.phone, form.ward)
+        navigate(from, { replace: true })
       } else {
         await signIn(form.email, form.password, "citizen")
         navigate(from, { replace: true })
       }
     } catch (err) {
-      setError((err as Error).message)
+      setError((err as Error).message || "Authentication failed. Please check credentials.")
     } finally {
       setBusy(false)
     }
@@ -40,7 +39,11 @@ export default function Login() {
         {(["login", "register"] as const).map((m) => (
           <button
             key={m}
-            onClick={() => setMode(m)}
+            type="button"
+            onClick={() => {
+              setMode(m)
+              setError(null)
+            }}
             className={`flex-1 rounded px-3 py-2 text-sm font-semibold ${mode === m ? "bg-navy text-white" : "text-ink"}`}
           >
             {m === "login" ? "Login" : "Register"}
@@ -48,23 +51,75 @@ export default function Login() {
         ))}
       </div>
       <form onSubmit={onSubmit} className="space-y-4">
-        {error ? <p role="alert" className="rounded-gov border border-[#F3D19E] bg-[#FFF3E0] px-3 py-2 text-sm text-[#8A5200]">{error}</p> : null}
+        {error ? (
+          <p role="alert" className="rounded-gov border border-[#E56458] bg-[#FCE9E7] px-3 py-2 text-sm text-[#8A2A22]">
+            {error}
+          </p>
+        ) : null}
         {mode === "register" ? (
-          <div>
-            <label htmlFor="l-name" className="gov-label">Full Name</label>
-            <input id="l-name" className="gov-input" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-          </div>
+          <>
+            <div>
+              <label htmlFor="l-name" className="gov-label">Full Name <span className="text-saffron-dark">*</span></label>
+              <input
+                id="l-name"
+                className="gov-input"
+                required
+                placeholder="e.g. Ramesh Kumar"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label htmlFor="l-phone" className="gov-label">Mobile Number</label>
+                <input
+                  id="l-phone"
+                  className="gov-input"
+                  placeholder="9876543210"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                />
+              </div>
+              <div>
+                <label htmlFor="l-ward" className="gov-label">Ward / Zone</label>
+                <input
+                  id="l-ward"
+                  className="gov-input"
+                  placeholder="Ward 12"
+                  value={form.ward}
+                  onChange={(e) => setForm({ ...form, ward: e.target.value })}
+                />
+              </div>
+            </div>
+          </>
         ) : null}
         <div>
-          <label htmlFor="l-email" className="gov-label">Email</label>
-          <input id="l-email" type="email" className="gov-input" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+          <label htmlFor="l-email" className="gov-label">Email Address <span className="text-saffron-dark">*</span></label>
+          <input
+            id="l-email"
+            type="email"
+            className="gov-input"
+            required
+            placeholder="citizen@example.com"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
         </div>
         <div>
-          <label htmlFor="l-pass" className="gov-label">Password</label>
-          <input id="l-pass" type="password" className="gov-input" required minLength={6} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+          <label htmlFor="l-pass" className="gov-label">Password <span className="text-saffron-dark">*</span></label>
+          <input
+            id="l-pass"
+            type="password"
+            className="gov-input"
+            required
+            minLength={6}
+            placeholder="••••••••"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+          />
         </div>
         <button className="gov-btn-primary w-full" disabled={busy}>
-          {busy ? "Please wait…" : mode === "login" ? "Login" : "Create Account"}
+          {busy ? "Authenticating…" : mode === "login" ? "Sign In" : "Create Account"}
         </button>
       </form>
       {mode === "login" ? (
@@ -72,13 +127,8 @@ export default function Login() {
           <Link to="/forgot-password" className="gov-link">Forgot password?</Link>
         </p>
       ) : null}
-      {demoMode ? (
-        <p className="mt-4 rounded-gov bg-surface p-3 text-xs text-muted">
-          Demo mode: enter any email and password to explore the citizen portal.
-        </p>
-      ) : null}
       <p className="mt-4 text-center text-sm text-muted">
-        Are you a department officer? <Link to="/admin/login" className="gov-link">Admin Login</Link>
+        Are you a department officer? <Link to="/admin/login" className="gov-link font-semibold">Admin Login</Link>
       </p>
     </AuthShell>
   )
@@ -97,16 +147,13 @@ export function AuthShell({ title, subtitle, children }: { title: string; subtit
           <Link to="/" className="mb-6 flex flex-col items-center gap-2">
             <Logo size={64} />
             <span className="text-2xl font-extrabold text-navy">NagrikSetu</span>
-            <span className="text-center text-xs text-muted">Digital Civic Issue Reporting & Community Problem Monitoring Portal</span>
+            <span className="text-center text-xs text-muted">Digital Civic Issue Reporting &amp; Community Problem Monitoring Portal</span>
           </Link>
           <div className="gov-card p-6">
             <h1 className="text-xl font-bold text-navy">{title}</h1>
-            <p className="mb-5 text-sm text-muted">{subtitle}</p>
+            <p className="mb-4 text-sm text-muted">{subtitle}</p>
             {children}
           </div>
-          <p className="mt-4 text-center text-xs text-muted">
-            <Link to="/" className="gov-link">← Back to Home</Link>
-          </p>
         </div>
       </div>
     </div>

@@ -1,11 +1,8 @@
 import { useAsync } from "./useAsync"
-import { feedbackService } from "../services/feedback.service"
-import { hasSupabase } from "../lib/supabase"
-import type { FeedbackEntry } from "../repositories/feedback.repository"
+import { apiGetFeedback, type AppFeedback } from "../lib/api"
 
 export function useFeedbackList() {
-  return useAsync<FeedbackEntry[]>(async () => {
-    if (!hasSupabase) return []
-    return feedbackService.list()
+  return useAsync<AppFeedback[]>(async () => {
+    return apiGetFeedback()
   }, [])
 }

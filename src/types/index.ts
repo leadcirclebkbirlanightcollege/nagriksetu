@@ -116,6 +116,7 @@ export interface Complaint {
   resolvedAt?: string
   assignedTo?: string // department / officer display name
   departmentId?: string
+  departmentName?: string
   officerId?: string
   reporterId?: string
   reporterName?: string
@@ -217,6 +218,8 @@ export interface AppUser {
   email: string
   role: UserRole
   phone?: string
+  ward?: string
+  address?: string
   gender?: Gender
   age?: number
   wardId?: string
