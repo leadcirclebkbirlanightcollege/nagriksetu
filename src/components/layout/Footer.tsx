@@ -35,24 +35,30 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="mt-12 border-t-4 border-saffron bg-navy-dark text-white">
-      <div className="gov-container grid gap-8 py-10 md:grid-cols-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <Logo size={40} />
-            <span className="text-lg font-bold">{t("portalName")}</span>
+    <footer className="mt-14 border-t-4 border-[#E65100] bg-[#051C33] text-white">
+      <div className="gov-container grid gap-8 py-10 sm:grid-cols-2 md:grid-cols-4 lg:gap-12">
+        <div className="sm:col-span-2 md:col-span-1">
+          <div className="flex items-center gap-3">
+            <div className="flex shrink-0 items-center justify-center rounded border border-white/20 bg-white/10 p-1">
+              <Logo size={42} />
+            </div>
+            <span className="text-lg font-extrabold tracking-tight text-white">{t("portalName")}</span>
           </div>
-          <p className="mt-3 text-sm text-white/70">{t("tagline")}</p>
+          <p className="mt-3 text-xs leading-relaxed text-[#CBD5E1]">{t("tagline")}</p>
+          <div className="mt-4 rounded border border-white/10 bg-white/5 p-2.5 text-[11px] text-[#94A3B8]">
+            <p className="font-semibold text-white/90">24×7 Citizen Helpline</p>
+            <p className="mt-0.5 text-saffron">Toll-Free: 1800-XXX-XXXX</p>
+          </div>
         </div>
         {cols.map((col) => (
           <div key={col.heading}>
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-saffron">
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-[#FFB366]">
               {col.heading}
             </h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-xs">
               {col.links.map((l) => (
                 <li key={l.label}>
-                  <Link to={l.to} className="text-white/80 hover:text-white hover:underline">
+                  <Link to={l.to} className="text-[#CBD5E1] transition-colors hover:text-white hover:underline underline-offset-2">
                     {l.label}
                   </Link>
                 </li>
@@ -61,8 +67,8 @@ export default function Footer() {
           </div>
         ))}
       </div>
-      <div className="border-t border-white/15">
-        <div className="gov-container flex flex-col items-center justify-between gap-2 py-4 text-xs text-white/70 md:flex-row">
+      <div className="border-t border-white/10 bg-[#031324]">
+        <div className="gov-container flex flex-col items-center justify-between gap-2 py-4 text-xs text-[#94A3B8] md:flex-row">
           <p>© {new Date().getFullYear()} NagrikSetu. A citizen civic-services demonstration portal.</p>
           <p>
             This is an academic/field-project portal. Not affiliated with any government body.
@@ -72,3 +78,4 @@ export default function Footer() {
     </footer>
   )
 }
+

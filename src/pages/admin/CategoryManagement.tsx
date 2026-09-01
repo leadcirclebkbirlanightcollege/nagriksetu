@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Layers, Plus, Trash2, Loader2, AlertCircle } from "lucide-react"
 import { apiGetAdminCategories, apiAddAdminCategory, apiRemoveAdminCategory } from "../../lib/api"
 
 export default function CategoryManagement() {
@@ -51,44 +52,56 @@ export default function CategoryManagement() {
   }
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h1 className="text-2xl font-bold text-navy">Category Management</h1>
-        <p className="text-sm text-muted">Define the civic issue categories citizens can report.</p>
+    <div className="space-y-5">
+      <div className="border-b border-[#E2E8F0] pb-4">
+        <h1 className="text-2xl font-bold text-navy flex items-center gap-2">
+          <Layers className="h-6 w-6 text-navy" />
+          <span>Category Management</span>
+        </h1>
+        <p className="mt-1 text-xs text-[#64748B]">Define the civic issue categories citizens can report.</p>
       </div>
 
       {error ? (
-        <p role="alert" className="rounded-gov border border-[#E56458] bg-[#FCE9E7] px-3 py-2 text-sm text-[#8A2A22]">
-          {error}
-        </p>
+        <div role="alert" className="flex items-center gap-2.5 rounded-gov border border-[#FECACA] bg-[#FEF2F2] p-3.5 text-xs font-bold text-[#991B1B]">
+          <AlertCircle className="h-4 w-4 text-[#DC2626] shrink-0" />
+          <span>{error}</span>
+        </div>
       ) : null}
 
-      <form onSubmit={handleAdd} className="gov-card flex flex-col gap-3 p-4 sm:flex-row">
+      <form onSubmit={handleAdd} className="gov-card flex flex-col gap-3 p-5 shadow-sm sm:flex-row">
         <input
-          className="gov-input"
+          className="gov-input text-xs"
           placeholder="New category name (e.g. Traffic Signals & Signs)"
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <button className="gov-btn-primary sm:w-40" disabled={busy}>
+        <button className="gov-btn-primary gap-2 text-xs font-bold sm:w-44 shrink-0" disabled={busy}>
+          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
           {busy ? "Adding…" : "Add Category"}
         </button>
       </form>
 
-      <div className="gov-card divide-y divide-line">
+      <div className="gov-card overflow-hidden border border-[#D8DEE6] shadow-sm divide-y divide-[#E2E8F0]">
+        <div className="bg-[#F8FAFC] px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
+          Active Civic Categories ({categories.length})
+        </div>
         {loading ? (
-          <div className="p-8 text-center text-muted">Loading categories…</div>
+          <div className="flex items-center justify-center gap-3 p-10 text-center text-[#64748B]">
+            <Loader2 className="h-5 w-5 animate-spin text-navy" />
+            <span className="font-semibold text-sm">Loading categories…</span>
+          </div>
         ) : categories.length === 0 ? (
-          <div className="p-8 text-center text-muted">No categories configured.</div>
+          <div className="p-10 text-center text-sm text-[#64748B]">No categories configured.</div>
         ) : (
           categories.map((c) => (
-            <div key={c} className="flex items-center justify-between px-4 py-3">
-              <span className="font-medium text-ink">{c}</span>
+            <div key={c} className="flex items-center justify-between px-5 py-3.5 hover:bg-[#F8FAFC] transition-colors">
+              <span className="text-sm font-semibold text-[#1E293B]">{c}</span>
               <button
                 type="button"
-                className="text-xs font-semibold text-[#8A2A22] hover:underline"
+                className="inline-flex items-center gap-1 text-xs font-bold text-[#DC2626] hover:underline"
                 onClick={() => handleRemove(c)}
               >
+                <Trash2 className="h-3.5 w-3.5" />
                 Remove
               </button>
             </div>
@@ -98,3 +111,4 @@ export default function CategoryManagement() {
     </div>
   )
 }
+

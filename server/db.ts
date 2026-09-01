@@ -162,7 +162,7 @@ function ensureDataDir() {
 
 // Initial seed data with authentic Indian municipal departments, wards, and admin accounts
 function getInitialData(): DatabaseSchema {
-  const adminPasswordHash = bcrypt.hashSync("Admin@12345", 10)
+  const adminPasswordHash = bcrypt.hashSync("Admin@123", 10)
   const officerPasswordHash = bcrypt.hashSync("Officer@12345", 10)
   const citizenPasswordHash = bcrypt.hashSync("Citizen@12345", 10)
 

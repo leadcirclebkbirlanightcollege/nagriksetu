@@ -8,8 +8,8 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-white text-ink font-sans antialiased;
-    font-size: 16px;
+    @apply bg-[#F8FAFC] text-ink font-sans antialiased;
+    font-size: 15px;
     line-height: 1.5;
   }
   /* Visible keyboard focus for accessibility (WCAG 2.4.7) */
@@ -19,12 +19,12 @@
   select:focus-visible,
   textarea:focus-visible,
   [tabindex]:focus-visible {
-    outline: 3px solid #FF9933;
+    outline: 2px solid #E65100;
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 3px;
   }
-  h1, h2, h3, h4 {
-    @apply text-navy font-semibold;
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-navy font-bold tracking-tight;
     text-wrap: balance;
   }
 }
@@ -34,28 +34,31 @@
     @apply mx-auto w-full max-w-gov px-4 sm:px-6 lg:px-8;
   }
   .gov-card {
-    @apply rounded-gov border border-line bg-white shadow-card;
+    @apply rounded-gov border border-[#D8DEE6] bg-white shadow-[0_1px_3px_rgba(11,60,109,0.05)];
   }
   .gov-link {
-    @apply text-navy underline underline-offset-2 hover:text-saffron-dark focus:text-saffron-dark;
+    @apply text-navy font-medium underline underline-offset-2 hover:text-saffron-dark focus:text-saffron-dark transition-colors;
   }
   .gov-btn {
-    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-gov px-4 py-2 text-sm font-semibold transition-colors;
+    @apply inline-flex min-h-[40px] items-center justify-center gap-2 rounded-gov px-4 py-2 text-sm font-semibold tracking-wide transition-all duration-150 active:scale-[0.99] disabled:opacity-60 disabled:pointer-events-none;
   }
   .gov-btn-primary {
-    @apply gov-btn bg-navy text-white hover:bg-navy-light;
+    @apply gov-btn bg-navy text-white hover:bg-navy-light shadow-[0_1px_2px_rgba(0,0,0,0.1)];
   }
   .gov-btn-saffron {
-    @apply gov-btn bg-saffron text-navy-dark hover:bg-saffron-dark;
+    @apply gov-btn bg-saffron text-white hover:bg-saffron-dark shadow-[0_1px_2px_rgba(0,0,0,0.1)];
+  }
+  .gov-btn-green {
+    @apply gov-btn bg-india-green text-white hover:bg-india-greenDark shadow-[0_1px_2px_rgba(0,0,0,0.1)];
   }
   .gov-btn-outline {
-    @apply gov-btn border border-navy bg-white text-navy hover:bg-surface;
+    @apply gov-btn border border-[#0B3C6D] bg-white text-navy hover:bg-[#F1F5F9] shadow-[0_1px_2px_rgba(0,0,0,0.02)];
   }
   .gov-input {
-    @apply min-h-[44px] w-full rounded-gov border border-line bg-white px-3 py-2 text-ink placeholder:text-muted focus:border-navy;
+    @apply min-h-[40px] w-full rounded-gov border border-[#CBD5E1] bg-white px-3 py-2 text-sm text-ink placeholder:text-[#94A3B8] transition-colors focus:border-navy focus:ring-1 focus:ring-navy focus:outline-none disabled:bg-[#F1F5F9] disabled:text-[#94A3B8];
   }
   .gov-label {
-    @apply mb-1 block text-sm font-semibold text-ink;
+    @apply mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#334155];
   }
   .section-title {
     @apply text-xl font-bold text-navy sm:text-2xl;
@@ -75,12 +78,14 @@
   background: #0B3C6D;
   color: #fff;
   padding: 8px 14px;
-  border-radius: 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 /* Text-size accessibility helpers toggled from the top utility bar */
-html[data-fontscale="large"] body { font-size: 17.5px; }
-html[data-fontscale="xlarge"] body { font-size: 19px; }
+html[data-fontscale="large"] body { font-size: 16.5px; }
+html[data-fontscale="xlarge"] body { font-size: 18px; }
 
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -89,3 +94,4 @@ html[data-fontscale="xlarge"] body { font-size: 19px; }
     scroll-behavior: auto !important;
   }
 }
+

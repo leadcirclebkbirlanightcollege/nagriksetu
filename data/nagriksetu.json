@@ -1,0 +1,533 @@
+{
+  "complaintSeq": 415,
+  "users": [
+    {
+      "id": "usr-admin-01",
+      "name": "Municipal Chief Administrator",
+      "email": "admin@nagriksetu.gov.in",
+      "passwordHash": "$2b$10$jjmGUiBkYfCAdQBHNQY.NOmit2/pISZ9DQYYc55.ivEBd/dszHVVy",
+      "role": "admin",
+      "phone": "9820011223",
+      "ward": "Central Ward 01",
+      "status": "Active",
+      "createdAt": "2026-08-20T13:50:07.476Z",
+      "updatedAt": "2026-09-01T13:50:07.476Z"
+    },
+    {
+      "id": "usr-officer-01",
+      "name": "Shri Rajesh Sharma (Sanitation Officer)",
+      "email": "sanitation@nagriksetu.gov.in",
+      "passwordHash": "$2b$10$UVtoWzOfspweMoSjRuPM3eZ5wYBXBqSoWYOPCwGlpp1LSqLKamJ/S",
+      "role": "officer",
+      "phone": "9820044556",
+      "ward": "Ward 12",
+      "status": "Active",
+      "createdAt": "2026-08-20T13:50:07.476Z",
+      "updatedAt": "2026-09-01T13:50:07.476Z"
+    },
+    {
+      "id": "usr-officer-02",
+      "name": "Smt. Sunita Patil (Electrical Officer)",
+      "email": "electrical@nagriksetu.gov.in",
+      "passwordHash": "$2b$10$UVtoWzOfspweMoSjRuPM3eZ5wYBXBqSoWYOPCwGlpp1LSqLKamJ/S",
+      "role": "officer",
+      "phone": "9820077889",
+      "ward": "Ward 08",
+      "status": "Active",
+      "createdAt": "2026-08-20T13:50:07.476Z",
+      "updatedAt": "2026-09-01T13:50:07.476Z"
+    },
+    {
+      "id": "usr-citizen-01",
+      "name": "Aarav Sharma",
+      "email": "aarav@example.com",
+      "passwordHash": "$2b$10$XVRC0pZPEYb6MhnqNq3t/e0tI9y07nxsAfPeqTDq1R5eGkIFSAICi",
+      "role": "citizen",
+      "phone": "9800000010",
+      "ward": "Ward 12",
+      "address": "Flat 402, Shiv Darshan CHS, Shivaji Nagar",
+      "status": "Active",
+      "createdAt": "2026-08-20T13:50:07.476Z",
+      "updatedAt": "2026-09-01T13:50:07.476Z"
+    },
+    {
+      "id": "usr-citizen-02",
+      "name": "Meera Nair",
+      "email": "meera@example.com",
+      "passwordHash": "$2b$10$XVRC0pZPEYb6MhnqNq3t/e0tI9y07nxsAfPeqTDq1R5eGkIFSAICi",
+      "role": "citizen",
+      "phone": "9800000020",
+      "ward": "Ward 08",
+      "address": "House 12, Gandhi Road Extension",
+      "status": "Active",
+      "createdAt": "2026-08-20T13:50:07.476Z",
+      "updatedAt": "2026-09-01T13:50:07.476Z"
+    }
+  ],
+  "categories": [
+    "Garbage",
+    "Street Lights",
+    "Road Damage",
+    "Water Supply",
+    "Drainage",
+    "Parks & Open Spaces",
+    "Traffic & Parking",
+    "Stray Animals",
+    "Encroachment",
+    "Noise Pollution",
+    "Other"
+  ],
+  "departments": [
+    {
+      "id": "dept-swm",
+      "name": "Solid Waste Management Dept.",
+      "code": "SWM",
+      "categories": [
+        "Garbage",
+        "Stray Animals"
+      ],
+      "email": "swm@nagriksetu.gov.in",
+      "phone": "022-22620101"
+    },
+    {
+      "id": "dept-elec",
+      "name": "Electrical & Street Lighting Dept.",
+      "code": "ELEC",
+      "categories": [
+        "Street Lights"
+      ],
+      "email": "electrical@nagriksetu.gov.in",
+      "phone": "022-22620102"
+    },
+    {
+      "id": "dept-roads",
+      "name": "Roads & Infrastructure Dept.",
+      "code": "ROADS",
+      "categories": [
+        "Road Damage",
+        "Traffic & Parking",
+        "Encroachment"
+      ],
+      "email": "roads@nagriksetu.gov.in",
+      "phone": "022-22620103"
+    },
+    {
+      "id": "dept-water",
+      "name": "Hydraulic Engineer & Water Supply Dept.",
+      "code": "WATER",
+      "categories": [
+        "Water Supply"
+      ],
+      "email": "water@nagriksetu.gov.in",
+      "phone": "022-22620104"
+    },
+    {
+      "id": "dept-drain",
+      "name": "Storm Water Drains & Sewerage Dept.",
+      "code": "DRAIN",
+      "categories": [
+        "Drainage"
+      ],
+      "email": "drainage@nagriksetu.gov.in",
+      "phone": "022-22620105"
+    },
+    {
+      "id": "dept-parks",
+      "name": "Gardens & Tree Authority Dept.",
+      "code": "PARKS",
+      "categories": [
+        "Parks & Open Spaces",
+        "Noise Pollution",
+        "Other"
+      ],
+      "email": "gardens@nagriksetu.gov.in",
+      "phone": "022-22620106"
+    }
+  ],
+  "wards": [
+    {
+      "id": "ward-01",
+      "name": "Ward 01 – Fort & Colaba",
+      "code": "W01"
+    },
+    {
+      "id": "ward-04",
+      "name": "Ward 04 – Byculla & Parel",
+      "code": "W04"
+    },
+    {
+      "id": "ward-08",
+      "name": "Ward 08 – Gandhi Road & Dadar",
+      "code": "W08"
+    },
+    {
+      "id": "ward-12",
+      "name": "Ward 12 – Shivaji Nagar & Kurla",
+      "code": "W12"
+    },
+    {
+      "id": "ward-15",
+      "name": "Ward 15 – Nehru Colony & Ghatkopar",
+      "code": "W15"
+    },
+    {
+      "id": "ward-18",
+      "name": "Ward 18 – Andheri East",
+      "code": "W18"
+    },
+    {
+      "id": "ward-21",
+      "name": "Ward 21 – Borivali West",
+      "code": "W21"
+    }
+  ],
+  "areas": [
+    {
+      "id": "area-01",
+      "name": "Shivaji Nagar",
+      "ward": "Ward 12",
+      "lat": 19.079,
+      "lng": 72.881
+    },
+    {
+      "id": "area-02",
+      "name": "Gandhi Road",
+      "ward": "Ward 08",
+      "lat": 19.071,
+      "lng": 72.874
+    },
+    {
+      "id": "area-03",
+      "name": "Nehru Colony",
+      "ward": "Ward 15",
+      "lat": 19.065,
+      "lng": 72.89
+    },
+    {
+      "id": "area-04",
+      "name": "Subzi Mandi",
+      "ward": "Ward 12",
+      "lat": 19.082,
+      "lng": 72.879
+    },
+    {
+      "id": "area-05",
+      "name": "Station Road",
+      "ward": "Ward 18",
+      "lat": 19.113,
+      "lng": 72.869
+    },
+    {
+      "id": "area-06",
+      "name": "Market Yard",
+      "ward": "Ward 04",
+      "lat": 19.012,
+      "lng": 72.845
+    }
+  ],
+  "complaints": [
+    {
+      "uuid": "c-1001",
+      "id": "NS-2026-000412",
+      "title": "Overflowing community garbage bin near vegetable market",
+      "category": "Garbage",
+      "description": "The community garbage bin outside the vegetable market has not been cleared for four days and is overflowing onto the main road causing severe stench and stray animal menace.",
+      "area": "Ward 12 – Shivaji Nagar",
+      "ward": "Ward 12",
+      "landmark": "Opposite Subzi Mandi, Main Road",
+      "lat": 19.079,
+      "lng": 72.881,
+      "imageUrls": [],
+      "contactNumber": "9800000010",
+      "priority": "High",
+      "anonymous": false,
+      "archived": false,
+      "status": "Work Started",
+      "reporterId": "usr-citizen-01",
+      "reporterName": "Aarav Sharma",
+      "departmentId": "dept-swm",
+      "departmentName": "Solid Waste Management Dept.",
+      "officerId": "usr-officer-01",
+      "assignedTo": "Shri Rajesh Sharma (Sanitation Officer)",
+      "createdAt": "2026-08-27T13:50:07.476Z",
+      "updatedAt": "2026-09-01T13:50:07.476Z",
+      "timeline": [
+        {
+          "status": "Reported",
+          "at": "2026-08-27T13:50:07.476Z",
+          "actor": "Aarav Sharma (Citizen)"
+        },
+        {
+          "status": "Verified",
+          "at": "2026-08-28T13:50:07.476Z",
+          "actor": "Municipal Control Room",
+          "note": "Inspection verified severity high."
+        },
+        {
+          "status": "Assigned",
+          "at": "2026-08-29T13:50:07.476Z",
+          "actor": "Admin",
+          "note": "Assigned to Solid Waste Management Dept."
+        },
+        {
+          "status": "Work Started",
+          "at": "2026-08-31T13:50:07.476Z",
+          "actor": "Shri Rajesh Sharma",
+          "note": "Sanitation compaction vehicle dispatched."
+        }
+      ]
+    },
+    {
+      "uuid": "c-1002",
+      "id": "NS-2026-000388",
+      "title": "Broken street lights on Gandhi Road bus stop stretch",
+      "category": "Street Lights",
+      "description": "Two street lights near the bus stop have been non-functional for a week, making the whole stretch completely dark and unsafe for commuters at night.",
+      "area": "Ward 08 – Gandhi Road",
+      "ward": "Ward 08",
+      "landmark": "Near City Bus Stop, Gandhi Road",
+      "lat": 19.071,
+      "lng": 72.874,
+      "imageUrls": [],
+      "contactNumber": "9800000020",
+      "priority": "Medium",
+      "anonymous": false,
+      "archived": false,
+      "status": "Resolved",
+      "reporterId": "usr-citizen-02",
+      "reporterName": "Meera Nair",
+      "departmentId": "dept-elec",
+      "departmentName": "Electrical & Street Lighting Dept.",
+      "officerId": "usr-officer-02",
+      "assignedTo": "Smt. Sunita Patil (Electrical Officer)",
+      "createdAt": "2026-08-20T13:50:07.476Z",
+      "updatedAt": "2026-08-27T13:50:07.476Z",
+      "resolvedAt": "2026-08-27T13:50:07.476Z",
+      "timeline": [
+        {
+          "status": "Reported",
+          "at": "2026-08-20T13:50:07.476Z",
+          "actor": "Meera Nair (Citizen)"
+        },
+        {
+          "status": "Verified",
+          "at": "2026-08-22T13:50:07.476Z",
+          "actor": "Municipal Control Room"
+        },
+        {
+          "status": "Assigned",
+          "at": "2026-08-24T13:50:07.476Z",
+          "actor": "Admin",
+          "note": "Assigned to Electrical Dept."
+        },
+        {
+          "status": "Work Started",
+          "at": "2026-08-26T13:50:07.476Z",
+          "actor": "Smt. Sunita Patil"
+        },
+        {
+          "status": "Resolved",
+          "at": "2026-08-27T13:50:07.476Z",
+          "actor": "Smt. Sunita Patil",
+          "note": "New LED fixture and underground cable replaced. Fully illuminated."
+        }
+      ]
+    },
+    {
+      "uuid": "c-1003",
+      "id": "NS-2026-000355",
+      "title": "Deep pothole causing traffic and skidding near school gate",
+      "category": "Road Damage",
+      "description": "A deep 2-foot pothole has formed after the monsoon rains right at the entrance of Adarsh School, causing two-wheeler skidding during morning hours.",
+      "area": "Ward 15 – Nehru Colony",
+      "ward": "Ward 15",
+      "landmark": "Adarsh School Gate No. 2",
+      "lat": 19.065,
+      "lng": 72.89,
+      "imageUrls": [],
+      "contactNumber": "9820011223",
+      "priority": "Critical",
+      "anonymous": false,
+      "archived": false,
+      "status": "Verified",
+      "reporterId": "usr-citizen-01",
+      "reporterName": "Aarav Sharma",
+      "departmentId": "dept-roads",
+      "departmentName": "Roads & Infrastructure Dept.",
+      "createdAt": "2026-08-30T13:50:07.476Z",
+      "updatedAt": "2026-09-01T13:50:07.476Z",
+      "timeline": [
+        {
+          "status": "Reported",
+          "at": "2026-08-30T13:50:07.476Z",
+          "actor": "Aarav Sharma (Citizen)"
+        },
+        {
+          "status": "Verified",
+          "at": "2026-09-01T13:50:07.476Z",
+          "actor": "Municipal Control Room",
+          "note": "Prioritized for quick bitumen cold-mix patch."
+        }
+      ]
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif-01",
+      "userId": "usr-citizen-01",
+      "title": "Complaint NS-2026-000412 status updated",
+      "body": "Status changed to Work Started. Sanitation vehicle dispatched to Ward 12.",
+      "type": "status_update",
+      "complaintId": "c-1001",
+      "read": false,
+      "createdAt": "2026-09-01T13:50:07.476Z"
+    },
+    {
+      "id": "notif-02",
+      "userId": "usr-citizen-02",
+      "title": "Complaint NS-2026-000388 Resolved",
+      "body": "Your street lighting issue has been resolved by Electrical Dept.",
+      "type": "status_update",
+      "complaintId": "c-1002",
+      "read": true,
+      "createdAt": "2026-08-27T13:50:07.476Z"
+    }
+  ],
+  "feedback": [
+    {
+      "id": "fb-01",
+      "userId": "usr-citizen-02",
+      "userName": "Meera Nair",
+      "complaintId": "c-1002",
+      "rating": 5,
+      "comment": "Excellent response time! The street lights on Gandhi Road are working perfectly now.",
+      "suggestion": "Keep up the prompt action for public safety.",
+      "createdAt": "2026-08-27T13:50:07.476Z"
+    }
+  ],
+  "surveys": [
+    {
+      "id": "survey-civic-2026",
+      "title": "Citizen Civic Priorities Survey 2026",
+      "description": "Help the municipal administration prioritize ward budgets and infrastructure improvements.",
+      "active": true,
+      "createdAt": "2026-08-20T13:50:07.476Z",
+      "questions": [
+        {
+          "id": "q1",
+          "prompt": "Which civic issue needs the most urgent attention in your ward?",
+          "type": "single",
+          "options": [
+            "Garbage Management",
+            "Road & Pothole Repair",
+            "Water Supply Quality",
+            "Drainage & Sewage",
+            "Street Lighting"
+          ],
+          "required": true
+        },
+        {
+          "id": "q2",
+          "prompt": "What civic facilities do you use most frequently?",
+          "type": "multi",
+          "options": [
+            "Public Parks & Playgrounds",
+            "Community Health Centers",
+            "Public Libraries",
+            "Municipal Markets"
+          ],
+          "required": true
+        },
+        {
+          "id": "q3",
+          "prompt": "How satisfied are you with overall municipal response times?",
+          "type": "rating",
+          "required": true
+        },
+        {
+          "id": "q4",
+          "prompt": "Any specific suggestions for municipal digital services?",
+          "type": "text",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "surveyResponses": [
+    {
+      "id": "resp-01",
+      "surveyId": "survey-civic-2026",
+      "respondentId": "usr-citizen-01",
+      "respondentName": "Aarav Sharma",
+      "answers": {
+        "q1": "Garbage Management",
+        "q2": [
+          "Public Parks & Playgrounds",
+          "Municipal Markets"
+        ],
+        "q3": 4,
+        "q4": "Please add WhatsApp status updates for complaints."
+      },
+      "createdAt": "2026-08-27T13:50:07.476Z"
+    },
+    {
+      "id": "resp-02",
+      "surveyId": "survey-civic-2026",
+      "respondentId": "usr-citizen-02",
+      "respondentName": "Meera Nair",
+      "answers": {
+        "q1": "Street Lighting",
+        "q2": [
+          "Public Parks & Playgrounds"
+        ],
+        "q3": 5,
+        "q4": "NagrikSetu portal is very easy to use."
+      },
+      "createdAt": "2026-08-27T13:50:07.476Z"
+    }
+  ],
+  "activityLogs": [
+    {
+      "actorId": "usr-citizen-01",
+      "actorName": "Aarav Sharma",
+      "action": "Logged in (citizen)",
+      "entity": "user",
+      "entityId": "usr-citizen-01",
+      "id": "act-qzcwbwuw",
+      "createdAt": "2026-09-01T14:21:44.449Z"
+    },
+    {
+      "actorId": "usr-admin-01",
+      "actorName": "Municipal Chief Administrator",
+      "action": "Logged in (admin)",
+      "entity": "user",
+      "entityId": "usr-admin-01",
+      "id": "act-xtmop54g",
+      "createdAt": "2026-09-01T14:21:44.052Z"
+    },
+    {
+      "id": "act-01",
+      "actorName": "Municipal Control Room",
+      "action": "Verified complaint NS-2026-000355",
+      "entity": "complaint",
+      "entityId": "NS-2026-000355",
+      "createdAt": "2026-09-01T13:50:07.476Z"
+    },
+    {
+      "id": "act-02",
+      "actorName": "Shri Rajesh Sharma",
+      "action": "Updated NS-2026-000412 status to Work Started",
+      "entity": "complaint",
+      "entityId": "NS-2026-000412",
+      "createdAt": "2026-08-31T13:50:07.476Z"
+    },
+    {
+      "id": "act-03",
+      "actorName": "Smt. Sunita Patil",
+      "action": "Resolved complaint NS-2026-000388",
+      "entity": "complaint",
+      "entityId": "NS-2026-000388",
+      "createdAt": "2026-08-27T13:50:07.476Z"
+    }
+  ]
+}

@@ -11,14 +11,15 @@ import {
   XAxis,
   YAxis,
 } from "recharts"
+import { ClipboardList, Download, Loader2, BarChart3, PieChart as PieIcon } from "lucide-react"
 import { apiGetSurveyAnalytics } from "../../lib/api"
 
-const axisTick = { fontSize: 12, fill: "#5B6672" }
-const gridStroke = "#E9EEF4"
+const axisTick = { fontSize: 11, fill: "#475569" }
+const gridStroke = "#E2E8F0"
 const barMargin = { top: 8, right: 8, bottom: 8, left: 0 }
-const barRadius: [number, number, number, number] = [3, 3, 0, 0]
+const barRadius: [number, number, number, number] = [0, 4, 4, 0]
 
-const PIE_COLORS = ["#138808", "#72BC8F", "#FF9933", "#E8842B", "#E56458"]
+const PIE_COLORS = ["#138808", "#2E7D32", "#E65100", "#F57C00", "#DC2626"]
 
 interface SurveyAnalyticsData {
   totalResponses: number
@@ -45,41 +46,52 @@ export default function SurveyAnalytics() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4">
         <div>
-          <h1 className="text-2xl font-bold text-navy">Survey Analytics</h1>
-          <p className="text-sm text-muted">
+          <h1 className="text-2xl font-bold text-navy flex items-center gap-2">
+            <ClipboardList className="h-6 w-6 text-navy" />
+            <span>Survey Analytics</span>
+          </h1>
+          <p className="mt-1 text-xs text-[#64748B]">
             Civic Priorities &amp; Citizen Feedback Survey — {data.totalResponses.toLocaleString("en-IN")} verified responses
           </p>
         </div>
-        <button className="gov-btn-primary" onClick={() => window.print()}>
+        <button className="gov-btn-primary gap-2 text-xs font-bold" onClick={() => window.print()}>
+          <Download className="h-4 w-4" />
           ⬇️ Export Survey Data
         </button>
       </div>
 
       {loading ? (
-        <div className="rounded-gov border border-line bg-surface p-8 text-center text-muted">
-          Loading survey analytics…
+        <div className="flex items-center justify-center gap-3 rounded-gov border border-[#D8DEE6] bg-white p-12 text-center text-[#475569] shadow-sm">
+          <Loader2 className="h-5 w-5 animate-spin text-navy" />
+          <span className="font-semibold text-sm">Loading survey analytics…</span>
         </div>
       ) : (
         <div className="grid gap-6 lg:grid-cols-2">
-          <section className="gov-card p-5">
-            <h2 className="mb-1 text-base font-bold text-navy">Most Common Civic Problems</h2>
-            <p className="mb-4 text-sm text-muted">Identified from citizen survey responses</p>
+          <section className="gov-card border-t-[3px] border-t-navy p-5 shadow-sm">
+            <h2 className="flex items-center gap-2 text-sm font-bold text-navy">
+              <BarChart3 className="h-4 w-4 text-navy" />
+              <span>Most Common Civic Problems</span>
+            </h2>
+            <p className="mb-4 mt-0.5 text-xs text-[#64748B]">Identified from citizen survey responses</p>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={data.topProblems} layout="vertical" margin={barMargin}>
                 <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
                 <XAxis type="number" tick={axisTick} />
-                <YAxis type="category" dataKey="problem" width={110} tick={axisTick} />
+                <YAxis type="category" dataKey="problem" width={120} tick={axisTick} />
                 <Tooltip />
                 <Bar dataKey="responses" name="Responses" fill="#0B3C6D" radius={barRadius} />
               </BarChart>
             </ResponsiveContainer>
           </section>
 
-          <section className="gov-card p-5">
-            <h2 className="mb-1 text-base font-bold text-navy">Citizen Satisfaction Breakdown</h2>
-            <p className="mb-4 text-sm text-muted">Overall experience with municipal service resolution</p>
+          <section className="gov-card border-t-[3px] border-t-navy p-5 shadow-sm">
+            <h2 className="flex items-center gap-2 text-sm font-bold text-navy">
+              <PieIcon className="h-4 w-4 text-[#138808]" />
+              <span>Citizen Satisfaction Breakdown</span>
+            </h2>
+            <p className="mb-4 mt-0.5 text-xs text-[#64748B]">Overall experience with municipal service resolution</p>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -104,3 +116,4 @@ export default function SurveyAnalytics() {
     </div>
   )
 }
+
