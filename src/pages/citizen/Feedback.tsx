@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { MessageSquarePlus, Star, Send, Loader2, AlertCircle, CheckCircle2 } from "lucide-react"
+import Breadcrumb from "../../components/ui/Breadcrumb"
 import { apiSubmitFeedback } from "../../lib/api"
 
 export default function Feedback() {
@@ -31,35 +32,51 @@ export default function Feedback() {
 
   if (sent) {
     return (
-      <div className="gov-card border-t-[4px] border-t-[#138808] p-8 text-center shadow-sm">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#ECFDF5] text-[#138808]">
-          <CheckCircle2 className="h-7 w-7" />
+      <div className="space-y-5">
+        <Breadcrumb items={[{ label: "Citizen Portal", to: "/citizen" }, { label: "Feedback" }]} />
+        <div className="gov-card border-t-4 border-t-govGreen p-8 text-center shadow-card max-w-lg mx-auto">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-govGreen-tint text-govGreen">
+            <CheckCircle2 className="h-8 w-8" aria-hidden="true" />
+          </div>
+          <h1 className="mt-4 text-xl font-bold text-navy">Thank you for your feedback</h1>
+          <p className="mt-2 text-xs sm:text-sm text-ink-muted leading-relaxed">
+            Your evaluation has been recorded and submitted to the municipal quality assurance cell.
+          </p>
         </div>
-        <h1 className="mt-3 text-xl font-bold text-navy">Thank you for your feedback</h1>
-        <p className="mt-1 text-xs text-[#64748B]">Your input has been recorded and submitted to the municipal quality assurance cell.</p>
       </div>
     )
   }
 
   return (
     <div className="space-y-5">
-      <div className="border-b border-[#E2E8F0] pb-4">
-        <h1 className="text-2xl font-bold text-navy flex items-center gap-2">
-          <MessageSquarePlus className="h-6 w-6 text-navy" />
-          <span>Citizen Feedback</span>
+      <Breadcrumb items={[{ label: "Citizen Portal", to: "/citizen" }, { label: "Feedback" }]} />
+
+      <div className="gov-card border-t-4 border-t-navy p-5 sm:p-6 shadow-sm">
+        <h1 className="text-xl sm:text-2xl font-bold text-navy flex items-center gap-2">
+          <MessageSquarePlus className="h-6 w-6 text-navy" aria-hidden="true" />
+          <span>Citizen Experience Feedback</span>
         </h1>
-        <p className="mt-1 text-xs text-[#64748B]">Rate your experience with NagrikSetu and the civic issue resolution process.</p>
+        <p className="mt-1 text-xs sm:text-sm text-ink-muted">
+          Rate your overall experience with NagrikSetu and the civic issue resolution process.
+        </p>
       </div>
-      <form onSubmit={onSubmit} className="gov-card p-6 shadow-sm border border-[#D8DEE6]">
+
+      <form onSubmit={onSubmit} className="gov-card p-6 sm:p-8 shadow-card border border-line">
         {error ? (
-          <div role="alert" className="mb-4 flex items-center gap-2 rounded-gov border border-[#FECACA] bg-[#FEF2F2] p-3.5 text-xs font-bold text-[#991B1B]">
-            <AlertCircle className="h-4 w-4 text-[#DC2626] shrink-0" />
+          <div
+            role="alert"
+            className="mb-4 flex items-center gap-2 rounded-gov border border-govRed-border bg-govRed-tint p-3.5 text-xs font-bold text-govRed-dark"
+          >
+            <AlertCircle className="h-4 w-4 text-govRed shrink-0" aria-hidden="true" />
             <span>{error}</span>
           </div>
         ) : null}
+
         <fieldset>
-          <legend className="gov-label text-xs">Overall satisfaction <span className="text-saffron-dark">*</span></legend>
-          <div className="flex gap-2" role="radiogroup" aria-label="Satisfaction rating">
+          <legend className="gov-label text-xs">
+            Overall Municipal Satisfaction <span className="text-govRed font-bold">*</span>
+          </legend>
+          <div className="flex gap-2.5 mt-2" role="radiogroup" aria-label="Satisfaction rating">
             {[1, 2, 3, 4, 5].map((n) => (
               <button
                 type="button"
@@ -68,45 +85,59 @@ export default function Feedback() {
                 aria-checked={rating === n}
                 aria-label={`${n} star${n > 1 ? "s" : ""}`}
                 onClick={() => setRating(n)}
-                className={`flex h-11 w-11 items-center justify-center rounded-gov border text-lg transition-all ${
+                className={`flex h-12 w-12 items-center justify-center rounded-gov border text-lg transition-all ${
                   n <= rating
-                    ? "border-[#FF9933] bg-[#FFF7ED] text-[#EA580C] shadow-sm"
-                    : "border-[#CBD5E1] bg-white text-[#94A3B8] hover:border-navy"
+                    ? "border-saffron bg-[#FFF7ED] text-saffron shadow-xs"
+                    : "border-line bg-white text-ink-light hover:border-navy"
                 }`}
               >
-                <Star className={`h-5 w-5 ${n <= rating ? "fill-[#EA580C]" : ""}`} />
+                <Star className={`h-6 w-6 ${n <= rating ? "fill-saffron" : ""}`} aria-hidden="true" />
               </button>
             ))}
           </div>
         </fieldset>
-        <div className="mt-4">
-          <label htmlFor="fb-msg" className="gov-label text-xs">Comments on Resolution Quality</label>
+
+        <div className="mt-5">
+          <label htmlFor="fb-msg" className="gov-label text-xs">
+            Comments on Resolution Quality &amp; Department Response
+          </label>
           <textarea
             id="fb-msg"
             rows={3}
-            className="gov-input text-xs"
+            className="gov-input text-xs sm:text-sm"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Tell us what worked well or what can be improved…"
           />
         </div>
-        <div className="mt-4">
-          <label htmlFor="fb-sug" className="gov-label text-xs">Suggestions for Municipal Digital Portal</label>
+
+        <div className="mt-5">
+          <label htmlFor="fb-sug" className="gov-label text-xs">
+            Suggestions for Municipal Digital Services
+          </label>
           <textarea
             id="fb-sug"
             rows={2}
-            className="gov-input text-xs"
+            className="gov-input text-xs sm:text-sm"
             value={suggestion}
             onChange={(e) => setSuggestion(e.target.value)}
             placeholder="Any feature or communication enhancements…"
           />
         </div>
-        <button className="gov-btn-saffron mt-5 gap-2 text-xs font-bold" disabled={rating === 0 || busy}>
-          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-          {busy ? "Submitting…" : "Submit Feedback"}
+
+        <button
+          type="submit"
+          className="gov-btn-saffron mt-6 gap-2 text-xs sm:text-sm font-bold shadow-sm"
+          disabled={rating === 0 || busy}
+        >
+          {busy ? (
+            <Loader2 className="h-4 w-4 animate-spin text-white" aria-hidden="true" />
+          ) : (
+            <Send className="h-4 w-4" aria-hidden="true" />
+          )}
+          <span>{busy ? "Submitting…" : "Submit Feedback"}</span>
         </button>
       </form>
     </div>
   )
 }
-

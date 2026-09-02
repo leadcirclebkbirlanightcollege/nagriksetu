@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom"
 import App from "./App"
 import { AuthProvider } from "./context/AuthContext"
 import { LanguageProvider } from "./context/LanguageContext"
+import { ToastProvider } from "./components/ui/Toast"
 import "./index.css"
 import "leaflet/dist/leaflet.css"
 
@@ -12,7 +13,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <BrowserRouter>
       <LanguageProvider>
         <AuthProvider>
-          <App />
+          <ToastProvider>
+            <App />
+          </ToastProvider>
         </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>

@@ -25,10 +25,12 @@ import {
   Droplet,
   Camera,
   FileText,
-  ShieldAlert,
+  ShieldCheck,
+  ArrowRight,
 } from "lucide-react"
 import SectionHeading from "../components/ui/SectionHeading"
 import StatCard from "../components/ui/StatCard"
+import StatusBadge from "../components/ui/StatusBadge"
 import { useLanguage } from "../context/LanguageContext"
 import { useAnalytics } from "../hooks/useAnalytics"
 
@@ -86,50 +88,55 @@ export default function Home() {
 
   return (
     <>
-      {/* Hero banner */}
-      <section className="border-b border-[#D8DEE6] bg-gradient-to-b from-[#F1F5F9] via-[#F8FAFC] to-white">
-        <div className="gov-container grid items-center gap-8 py-10 md:grid-cols-[1.4fr_1fr] md:py-14">
+      {/* Official Government Hero Banner */}
+      <section className="border-b border-line bg-gradient-to-b from-[#F1F5F9] via-[#F8FAFC] to-white">
+        <div className="gov-container grid items-center gap-8 py-10 sm:py-12 md:grid-cols-[1.35fr_1fr] lg:gap-12">
           <div>
-            <div className="inline-flex items-center gap-2 rounded border border-[#BFDBFE] bg-[#EFF6FF] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#1E40AF]">
-              <span className="h-2 w-2 rounded-full bg-[#3B82F6]" aria-hidden />
-              Citizen Service Portal
+            <div className="inline-flex items-center gap-2 rounded-gov border border-line bg-white px-3 py-1 text-xs font-bold uppercase tracking-wider text-navy shadow-xs">
+              <span className="h-2 w-2 rounded-full bg-saffron" aria-hidden="true" />
+              <span>Official Citizen Service Gateway</span>
             </div>
-            <h1 className="mt-4 text-3xl font-extrabold leading-tight text-navy sm:text-4xl lg:text-[2.6rem]">
+            <h1 className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-navy">
               {t("heroTitle")}
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#334155]">{t("heroBody")}</p>
-            <div className="mt-7 flex flex-wrap gap-3">
+            <p className="mt-3.5 max-w-2xl text-sm sm:text-base leading-relaxed text-ink-muted">
+              {t("heroBody")}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/report" className="gov-btn-saffron text-sm font-bold shadow-sm">
-                <FileEdit className="h-4 w-4" />
-                {t("reportIssue")}
+                <FileEdit className="h-4 w-4" aria-hidden="true" />
+                <span>{t("reportIssue")}</span>
               </Link>
               <Link to="/track" className="gov-btn-primary text-sm font-bold shadow-sm">
-                <Search className="h-4 w-4" />
-                {t("trackComplaint")}
+                <Search className="h-4 w-4" aria-hidden="true" />
+                <span>{t("trackComplaint")}</span>
               </Link>
-              <Link to="/community" className="gov-btn-outline text-sm font-bold shadow-sm">
-                <BarChart3 className="h-4 w-4" />
-                {t("community")}
+              <Link to="/community" className="gov-btn-outline text-sm font-bold shadow-xs">
+                <BarChart3 className="h-4 w-4 text-navy" aria-hidden="true" />
+                <span>{t("community")}</span>
               </Link>
             </div>
           </div>
-          <div className="gov-card border-t-[4px] border-t-[#E65100] p-6 shadow-sm">
-            <h2 className="text-base font-bold text-navy flex items-center gap-2">
-              How it works
+
+          {/* Grievance Workflow Card */}
+          <div className="gov-card border-t-4 border-t-saffron p-6 shadow-sm">
+            <h2 className="text-base font-bold text-navy flex items-center gap-2 border-b border-lineSubtle pb-3">
+              <ShieldCheck className="h-5 w-5 text-saffron" aria-hidden="true" />
+              <span>How it works</span>
             </h2>
-            <ol className="mt-4 space-y-3.5 text-sm">
+            <ol className="mt-4 space-y-4 text-xs sm:text-sm">
               {[
                 ["1", "Report", "Describe the civic issue with photos & location."],
                 ["2", "Route", "Complaint is routed to the right municipal department."],
                 ["3", "Resolve", "Track progress through each status until closure."],
               ].map(([n, title, body]) => (
                 <li key={n} className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy text-xs font-bold text-white shadow-xs">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy text-xs font-extrabold text-white shadow-xs">
                     {n}
                   </span>
                   <div className="pt-0.5">
                     <strong className="font-bold text-navy">{title}.</strong>{" "}
-                    <span className="text-[#475569]">{body}</span>
+                    <span className="text-ink-muted">{body}</span>
                   </div>
                 </li>
               ))}
@@ -138,34 +145,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Quick Access Services */}
-      <section className="gov-container py-12">
+      {/* Quick Access Digital Services */}
+      <section className="gov-container py-10 sm:py-12">
         <SectionHeading title={t("quickAccess")} subtitle="Frequently used citizen services" />
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {quickServices.map((s) => {
             const IconComponent = s.icon
             return (
               <Link
                 key={s.label}
                 to={s.to}
-                className="gov-card group flex flex-col items-center gap-2.5 p-4 text-center transition-all duration-150 hover:-translate-y-0.5 hover:border-navy hover:shadow-md"
+                className="gov-card group flex flex-col items-center gap-2 p-4 text-center transition-all duration-150 hover:-translate-y-0.5 hover:border-navy hover:shadow-cardHover"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-gov border border-[#E2E8F0] bg-[#F8FAFC] text-navy transition-colors group-hover:border-navy group-hover:bg-[#EFF6FF] group-hover:text-navy">
-                  <IconComponent className="h-6 w-6 text-[#0B3C6D]" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-gov border border-lineSubtle bg-surface text-navy transition-colors group-hover:border-navy group-hover:bg-navy-tint">
+                  <IconComponent className="h-5 w-5 text-navy" aria-hidden="true" />
                 </div>
                 <span className="text-xs font-bold text-navy leading-snug">{s.label}</span>
-                <span className="text-[11px] text-[#64748B] leading-tight">{s.desc}</span>
+                <span className="text-[11px] text-ink-light leading-tight">{s.desc}</span>
               </Link>
             )
           })}
         </div>
       </section>
 
-      {/* Live Statistics */}
-      <section className="border-y border-[#D8DEE6] bg-[#F1F5F9] py-12">
+      {/* Live Civic Performance Statistics */}
+      <section className="border-y border-line bg-surfaceAlt py-10 sm:py-12">
         <div className="gov-container">
           <SectionHeading title={t("statistics")} subtitle="Live civic-service performance across the city" />
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             <StatCard
               label="Total Reported Issues"
               value={(stats?.total ?? 0).toLocaleString("en-IN")}
@@ -176,13 +183,13 @@ export default function Home() {
               label="Resolved Issues"
               value={(stats?.resolved ?? 0).toLocaleString("en-IN")}
               accent="green"
-              icon={<CheckCircle2 className="h-5 w-5 text-[#138808]" />}
+              icon={<CheckCircle2 className="h-5 w-5 text-govGreen" />}
             />
             <StatCard
               label="Pending Issues"
               value={(stats?.pending ?? 0).toLocaleString("en-IN")}
               accent="saffron"
-              icon={<Clock className="h-5 w-5 text-[#E65100]" />}
+              icon={<Clock className="h-5 w-5 text-saffron" />}
             />
             <StatCard
               label="Avg. Resolution Time"
@@ -194,38 +201,44 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Popular services + Latest updates */}
-      <section className="gov-container grid gap-8 py-12 lg:grid-cols-2">
+      {/* Popular Services & Latest Grievance Updates */}
+      <section className="gov-container grid gap-8 py-10 sm:py-12 lg:grid-cols-2">
+        {/* Popular Civic Categories */}
         <div>
           <SectionHeading title={t("popularServices")} />
-          <ul className="gov-card divide-y divide-[#E2E8F0] overflow-hidden">
+          <ul className="gov-card divide-y divide-lineSubtle overflow-hidden">
             {popularServices.map((s) => {
               const IconComponent = s.icon
               return (
                 <li key={s.label}>
-                  <Link to={s.to} className="flex items-center gap-3.5 px-4 py-3.5 transition-colors hover:bg-[#F8FAFC]">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-[#E2E8F0] bg-[#F1F5F9] text-navy">
-                      <IconComponent className="h-4 w-4 text-[#0B3C6D]" />
+                  <Link
+                    to={s.to}
+                    className="flex items-center gap-3.5 px-4 py-3 transition-colors hover:bg-surface"
+                  >
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-lineSubtle bg-surfaceAlt text-navy">
+                      <IconComponent className="h-4 w-4 text-navy" aria-hidden="true" />
                     </div>
-                    <span className="font-semibold text-sm text-[#1E293B]">{s.label}</span>
-                    <ChevronRight className="ml-auto h-4 w-4 text-[#94A3B8]" />
+                    <span className="font-semibold text-sm text-ink">{s.label}</span>
+                    <ChevronRight className="ml-auto h-4 w-4 text-ink-light" aria-hidden="true" />
                   </Link>
                 </li>
               )
             })}
           </ul>
         </div>
+
+        {/* Latest Grievance Dispatches */}
         <div>
           <SectionHeading title={t("latestUpdates")} />
           <ul className="space-y-3">
             {(stats?.recent?.slice(0, 3) || []).map((u) => (
-              <li key={u.id} className="gov-card p-4 transition-all hover:border-[#CBD5E1]">
-                <div className="flex items-center gap-2">
-                  <span className="rounded border border-[#BAE6FD] bg-[#F0F9FF] px-2 py-0.5 text-[11px] font-bold text-[#0369A1]">
+              <li key={u.id} className="gov-card p-4 transition-all hover:border-line">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-xs font-extrabold text-navy">{u.id}</span>
+                  <span className="rounded border border-line bg-surfaceAlt px-2 py-0.5 text-[11px] font-bold text-navy">
                     {u.category}
                   </span>
-                  <span className="font-mono text-xs font-semibold text-navy">{u.id}</span>
-                  <time className="ml-auto text-xs text-[#64748B]" dateTime={u.createdAt}>
+                  <time className="ml-auto text-xs text-ink-light" dateTime={u.createdAt}>
                     {new Date(u.createdAt).toLocaleDateString("en-IN", {
                       day: "numeric",
                       month: "short",
@@ -234,23 +247,26 @@ export default function Home() {
                   </time>
                 </div>
                 <h3 className="mt-2 text-sm font-bold text-navy">{u.title}</h3>
-                <p className="mt-1 text-xs text-[#475569]">{u.area} — Status: <strong className="text-navy">{u.status}</strong></p>
+                <div className="mt-2 flex items-center justify-between gap-2 border-t border-lineSubtle pt-2 text-xs">
+                  <span className="text-ink-muted">{u.area}</span>
+                  <StatusBadge status={u.status} size="sm" />
+                </div>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      {/* Awareness / Citizen charter */}
+      {/* Awareness / Citizen Charter */}
       <section className="bg-navy text-white">
-        <div className="gov-container grid gap-6 py-12 md:grid-cols-3">
+        <div className="gov-container grid gap-6 py-10 sm:py-12 md:grid-cols-3">
           <div className="md:col-span-1">
             <h2 className="text-2xl font-extrabold tracking-tight text-white">{t("awareness")}</h2>
             <p className="mt-2.5 text-xs leading-relaxed text-[#CBD5E1]">
               Your participation keeps the city clean, safe and functional. Know your civic rights and responsibilities.
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3 md:col-span-2">
+          <div className="grid gap-3 sm:gap-4 sm:grid-cols-3 md:col-span-2">
             {[
               [Recycle, "Segregate Waste", "Separate wet and dry waste for faster collection."],
               [Droplet, "Save Water", "Report leakages early to prevent water loss."],
@@ -258,9 +274,9 @@ export default function Home() {
             ].map(([IconComponent, title, body]) => {
               const Icon = IconComponent as typeof Recycle
               return (
-                <div key={title as string} className="rounded-gov border border-white/15 bg-[#082B4E] p-4.5">
+                <div key={title as string} className="rounded-gov border border-white/15 bg-[#082B4E] p-4">
                   <div className="flex h-9 w-9 items-center justify-center rounded border border-white/20 bg-white/10 text-white">
-                    <Icon className="h-5 w-5 text-saffron" />
+                    <Icon className="h-4 w-4 text-saffron" aria-hidden="true" />
                   </div>
                   <h3 className="mt-3 text-sm font-bold text-white">{title as string}</h3>
                   <p className="mt-1 text-xs text-[#CBD5E1] leading-relaxed">{body as string}</p>
@@ -271,14 +287,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="gov-container py-12">
+      {/* Frequently Asked Questions */}
+      <section id="faq" className="gov-container py-10 sm:py-12">
         <SectionHeading title={t("faq")} subtitle="Answers to common questions about using NagrikSetu" />
         <Faq />
       </section>
 
-      {/* Emergency contacts */}
-      <section className="border-t border-[#D8DEE6] bg-[#F1F5F9] py-12">
+      {/* 24x7 Civic Emergency Contacts */}
+      <section className="border-t border-line bg-surfaceAlt py-10 sm:py-12">
         <div className="gov-container">
           <SectionHeading title={t("emergency")} subtitle="Save these numbers for urgent situations" />
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -286,13 +302,15 @@ export default function Home() {
               <a
                 key={c.number}
                 href={`tel:${c.number}`}
-                className="gov-card group flex items-center justify-between p-3.5 transition-all hover:border-navy hover:shadow-sm"
+                className="gov-card group flex items-center justify-between p-3.5 transition-all hover:border-navy hover:shadow-cardHover"
               >
                 <div className="flex items-center gap-2">
-                  <Phone className="h-4 w-4 text-[#E65100]" />
-                  <span className="text-xs font-semibold text-[#1E293B]">{c.label}</span>
+                  <Phone className="h-4 w-4 text-saffron shrink-0" aria-hidden="true" />
+                  <span className="text-xs font-semibold text-ink">{c.label}</span>
                 </div>
-                <span className="rounded bg-[#138808] px-2.5 py-0.5 text-xs font-extrabold text-white shadow-xs">{c.number}</span>
+                <span className="rounded-gov bg-govGreen px-2.5 py-0.5 text-xs font-extrabold text-white shadow-xs">
+                  {c.number}
+                </span>
               </a>
             ))}
           </div>
@@ -305,26 +323,30 @@ export default function Home() {
 function Faq() {
   const [open, setOpen] = useState<number | null>(0)
   return (
-    <div className="gov-card divide-y divide-[#E2E8F0] overflow-hidden">
+    <div className="gov-card divide-y divide-lineSubtle overflow-hidden">
       {defaultFaqItems.map((item, i) => {
         const isOpen = open === i
         return (
           <div key={item.q}>
             <h3>
               <button
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-[#F8FAFC]"
+                type="button"
+                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-surface focus:outline-none focus-visible:bg-surface"
                 aria-expanded={isOpen}
                 onClick={() => setOpen(isOpen ? null : i)}
               >
                 <span className="text-sm font-bold text-navy">{item.q}</span>
-                <span aria-hidden className="flex h-6 w-6 shrink-0 items-center justify-center rounded border border-[#CBD5E1] bg-white text-navy">
+                <span
+                  aria-hidden="true"
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded border border-line bg-white text-navy"
+                >
                   {isOpen ? <Minus className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
                 </span>
               </button>
             </h3>
             {isOpen ? (
-              <div className="border-t border-[#F1F5F9] bg-[#F8FAFC] px-5 py-3.5">
-                <p className="text-xs text-[#334155] leading-relaxed">{item.a}</p>
+              <div className="border-t border-lineSubtle bg-surface px-5 py-3.5 animate-in fade-in duration-150">
+                <p className="text-xs text-ink leading-relaxed">{item.a}</p>
               </div>
             ) : null}
           </div>
@@ -333,4 +355,3 @@ function Faq() {
     </div>
   )
 }
-

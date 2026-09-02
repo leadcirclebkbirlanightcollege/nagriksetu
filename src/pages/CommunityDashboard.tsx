@@ -23,15 +23,25 @@ import {
   BarChart3,
   PieChart as PieIcon,
   MapPin,
+  Download,
 } from "lucide-react"
 import SectionHeading from "../components/ui/SectionHeading"
+import Breadcrumb from "../components/ui/Breadcrumb"
 import StatCard from "../components/ui/StatCard"
 import IssueHeatMap from "../features/map/IssueHeatMap"
 import { useAnalytics } from "../hooks/useAnalytics"
 
 const PIE_COLORS = [
-  "#0B3C6D", "#E65100", "#138808", "#12518F", "#D97706",
-  "#0284C7", "#7C3AED", "#DB2777", "#059669", "#78350F",
+  "#0B3C6D",
+  "#E65100",
+  "#138808",
+  "#12518F",
+  "#D97706",
+  "#0284C7",
+  "#4F46E5",
+  "#059669",
+  "#7C2D12",
+  "#334155",
 ]
 
 const axisTick = { fontSize: 11, fill: "#475569" }
@@ -56,19 +66,26 @@ export default function CommunityDashboard() {
   const monthlyTrends = stats?.monthlyTrends ?? []
 
   return (
-    <div className="gov-container py-8 sm:py-10">
+    <div className="gov-container py-6 sm:py-8">
+      <Breadcrumb items={[{ label: "Community Dashboard" }]} />
+
       <SectionHeading
         title="Community Dashboard"
         subtitle="Public, transparent view of civic issues reported and resolved across the city"
         action={
-          <button className="gov-btn-outline gap-2 text-xs font-bold" onClick={() => window.print()}>
-            <Printer className="h-4 w-4 text-navy" />
-            📄 Download / Print Report
+          <button
+            type="button"
+            className="gov-btn-outline gap-2 text-xs font-bold shadow-xs no-print"
+            onClick={() => window.print()}
+          >
+            <Printer className="h-4 w-4 text-navy" aria-hidden="true" />
+            <span>Download / Print Report</span>
           </button>
         }
       />
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {/* Metric Cards */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard
           label="Total Reported Issues"
           value={total.toLocaleString("en-IN")}
@@ -79,13 +96,13 @@ export default function CommunityDashboard() {
           label="Resolved Issues"
           value={resolved.toLocaleString("en-IN")}
           accent="green"
-          icon={<CheckCircle2 className="h-5 w-5 text-[#138808]" />}
+          icon={<CheckCircle2 className="h-5 w-5 text-govGreen" />}
         />
         <StatCard
           label="Pending Issues"
           value={pending.toLocaleString("en-IN")}
           accent="saffron"
-          icon={<Clock className="h-5 w-5 text-[#E65100]" />}
+          icon={<Clock className="h-5 w-5 text-saffron" />}
         />
         <StatCard
           label="Resolution Rate"
@@ -96,8 +113,8 @@ export default function CommunityDashboard() {
       </div>
 
       {loading ? (
-        <div className="mt-8 flex items-center justify-center gap-3 rounded-gov border border-[#D8DEE6] bg-white p-12 text-center text-[#475569] shadow-sm">
-          <Loader2 className="h-5 w-5 animate-spin text-navy" />
+        <div className="mt-8 flex items-center justify-center gap-3 rounded-gov border border-line bg-white p-12 text-center text-ink-muted shadow-sm">
+          <Loader2 className="h-5 w-5 animate-spin text-navy" aria-hidden="true" />
           <span className="font-semibold text-sm">Loading civic metrics…</span>
         </div>
       ) : (
@@ -115,7 +132,7 @@ export default function CommunityDashboard() {
               </ResponsiveContainer>
             </Panel>
 
-            <Panel title="Category Distribution" icon={<PieIcon className="h-4 w-4 text-[#E65100]" />}>
+            <Panel title="Category Distribution" icon={<PieIcon className="h-4 w-4 text-saffron" />}>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie data={categoryStats} dataKey="count" nameKey="category" cx="50%" cy="50%" outerRadius={95} label={pieLabel}>
@@ -128,7 +145,7 @@ export default function CommunityDashboard() {
               </ResponsiveContainer>
             </Panel>
 
-            <Panel title="Area-wise Statistics" icon={<BarChart3 className="h-4 w-4 text-[#138808]" />}>
+            <Panel title="Area-wise Statistics" icon={<BarChart3 className="h-4 w-4 text-govGreen" />}>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={areaStats} margin={marginMid}>
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
@@ -158,9 +175,9 @@ export default function CommunityDashboard() {
           </div>
 
           <div className="mt-8">
-            <Panel title="Interactive Map & Heatmap of Reported Issues" icon={<MapPin className="h-4 w-4 text-[#E65100]" />}>
-              <p className="mb-4 text-xs text-[#64748B]">
-                Circles show issue clusters; the heat overlay highlights areas with the most reports.
+            <Panel title="Interactive Map & Heatmap of Reported Issues" icon={<MapPin className="h-4 w-4 text-saffron" />}>
+              <p className="mb-4 text-xs text-ink-muted">
+                Circles indicate issue clusters; the heat overlay highlights municipal zones with the highest report density.
               </p>
               <IssueHeatMap />
             </Panel>
@@ -173,8 +190,8 @@ export default function CommunityDashboard() {
 
 function Panel({ title, icon, children }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <section className="gov-card border-t-[3px] border-t-navy p-5 shadow-sm">
-      <h2 className="mb-4 flex items-center gap-2 border-b border-[#E2E8F0] pb-2.5 text-sm font-bold text-navy">
+    <section className="gov-card border-t-4 border-t-navy p-5 shadow-sm">
+      <h2 className="mb-4 flex items-center gap-2 border-b border-lineSubtle pb-2.5 text-sm font-bold text-navy">
         {icon}
         <span>{title}</span>
       </h2>
@@ -182,4 +199,3 @@ function Panel({ title, icon, children }: { title: string; icon?: React.ReactNod
     </section>
   )
 }
-

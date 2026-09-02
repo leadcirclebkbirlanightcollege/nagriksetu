@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
- import { FileSpreadsheet, Download, Printer, Loader2 } from "lucide-react"
+import { FileSpreadsheet, Download, Printer, Loader2 } from "lucide-react"
+import Breadcrumb from "../../components/ui/Breadcrumb"
 import { apiListComplaints, apiGetAnalytics } from "../../lib/api"
 import type { Complaint } from "../../types"
 
@@ -61,60 +62,71 @@ export default function Reports() {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E8F0] pb-4">
+      <Breadcrumb items={[{ label: "Administration", to: "/admin" }, { label: "Reports & Export" }]} />
+
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-lineSubtle pb-4">
         <div>
           <h1 className="text-2xl font-bold text-navy flex items-center gap-2">
-            <FileSpreadsheet className="h-6 w-6 text-navy" />
-            <span>Reports &amp; Export</span>
+            <FileSpreadsheet className="h-6 w-6 text-navy" aria-hidden="true" />
+            <span>Reports &amp; Data Export</span>
           </h1>
-          <p className="mt-1 text-xs text-[#64748B]">Generate, analyze, and export complete civic complaint datasets for municipal reporting.</p>
+          <p className="mt-1 text-xs sm:text-sm text-ink-muted">
+            Generate, analyze, and export complete civic complaint datasets for municipal reporting.
+          </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 no-print">
           <button
-            className="gov-btn-primary gap-2 text-xs font-bold"
+            type="button"
+            className="gov-btn-primary gap-2 text-xs font-bold shadow-sm"
             onClick={downloadCsv}
             disabled={loading || complaints.length === 0}
           >
-            <Download className="h-4 w-4" />
-            ⬇️ Export Complaints CSV
+            <Download className="h-4 w-4" aria-hidden="true" />
+            <span>Export Complaints CSV</span>
           </button>
-          <button className="gov-btn-outline gap-2 text-xs font-bold" onClick={() => window.print()}>
-            <Printer className="h-4 w-4 text-navy" />
-            🖨️ Print / PDF
+          <button
+            type="button"
+            className="gov-btn-outline gap-2 text-xs font-bold shadow-xs"
+            onClick={() => window.print()}
+          >
+            <Printer className="h-4 w-4 text-navy" aria-hidden="true" />
+            <span>Print / PDF Document</span>
           </button>
         </div>
       </div>
 
-      <section className="gov-card overflow-hidden border border-[#D8DEE6] shadow-sm">
-        <h2 className="border-b border-[#E2E8F0] bg-[#F8FAFC] px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-[#64748B]">
+      <section className="gov-card overflow-hidden border border-line shadow-sm">
+        <h2 className="border-b border-line bg-surfaceAlt px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-ink-muted">
           Category Distribution Report
         </h2>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[420px] text-left text-sm">
-            <thead className="border-b border-[#E2E8F0] bg-[#F8FAFC] text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
+          <table className="w-full text-left text-sm" aria-label="Category distribution report table">
+            <thead className="border-b border-line bg-surfaceAlt text-[11px] font-bold uppercase tracking-wider text-ink-muted">
               <tr>
-                <th className="px-5 py-3.5">Category</th>
-                <th className="px-5 py-3.5 text-right">Total Reports</th>
+                <th scope="col" className="px-5 py-3.5">Category</th>
+                <th scope="col" className="px-5 py-3.5 text-right">Total Reports</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E2E8F0]">
+            <tbody className="divide-y divide-lineSubtle">
               {loading ? (
                 <tr>
-                  <td colSpan={2} className="px-5 py-10 text-center text-sm text-[#64748B]">
+                  <td colSpan={2} className="px-5 py-10 text-center text-sm text-ink-muted">
                     <div className="flex items-center justify-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin text-navy" />
+                      <Loader2 className="h-4 w-4 animate-spin text-navy" aria-hidden="true" />
                       <span>Loading report…</span>
                     </div>
                   </td>
                 </tr>
               ) : categoryStats.length === 0 ? (
                 <tr>
-                  <td colSpan={2} className="px-5 py-8 text-center text-sm text-[#64748B]">No data available.</td>
+                  <td colSpan={2} className="px-5 py-8 text-center text-sm text-ink-muted">
+                    No data available.
+                  </td>
                 </tr>
               ) : (
                 categoryStats.map((c) => (
-                  <tr key={c.category} className="hover:bg-[#F8FAFC] transition-colors">
-                    <td className="px-5 py-3.5 font-medium text-[#1E293B]">{c.category}</td>
+                  <tr key={c.category} className="hover:bg-surface transition-colors">
+                    <td className="px-5 py-3.5 font-medium text-ink">{c.category}</td>
                     <td className="px-5 py-3.5 text-right font-bold text-navy">{c.count}</td>
                   </tr>
                 ))
@@ -126,4 +138,3 @@ export default function Reports() {
     </div>
   )
 }
-
